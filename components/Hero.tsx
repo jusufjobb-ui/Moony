@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 export default function Hero() {
@@ -96,79 +97,43 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Visual / Candle illustration */}
+          {/* Hero image */}
           <div
             className={`relative flex items-center justify-center transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-            aria-hidden="true"
           >
-            {/* Main large circle - marble candle visual */}
-            <div className="relative w-72 h-72 md:w-96 md:h-96 lg:w-[420px] lg:h-[420px]">
-              {/* Outer glow ring */}
-              <div
-                className="absolute inset-0 rounded-full opacity-30 blur-2xl"
-                style={{
-                  background: 'radial-gradient(circle, #C8A99A 0%, #8FAE8E 50%, transparent 70%)',
-                }}
+            <div className="relative w-full max-w-md lg:max-w-lg aspect-square rounded-3xl overflow-hidden shadow-2xl">
+              <Image
+                src="/images/flatlay.jpeg"
+                alt="Moony Flames doftljus med citrus, blommor och kvistar"
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
+              {/* Subtle overlay for blending */}
+              <div className="absolute inset-0 rounded-3xl ring-1 ring-black/5" />
+            </div>
 
-              {/* Main marble circle */}
-              <div
-                className="relative w-full h-full rounded-full overflow-hidden shadow-2xl"
-                style={{
-                  background: 'conic-gradient(from 0deg at 50% 50%, #C8A99A, #F0EAE3, #8FAE8E, #e8d5ce, #d4c4bb, #c2d4c1, #C8A99A)',
-                }}
-              >
-                {/* Inner swirl overlay */}
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    background: 'radial-gradient(ellipse at 30% 40%, rgba(200,169,154,0.6) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(143,174,142,0.5) 0%, transparent 50%)',
-                  }}
-                />
-                {/* White center glow */}
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    background: 'radial-gradient(circle at 50% 40%, rgba(255,255,255,0.4) 0%, transparent 50%)',
-                  }}
-                />
-              </div>
-
-              {/* Floating badge - top left */}
-              <div
-                className="absolute -top-4 -left-4 bg-white rounded-2xl shadow-lg px-4 py-3 flex items-center gap-2 animate-bounce"
-                style={{ animationDuration: '3s' }}
-              >
-                <span className="text-xl">🌱</span>
-                <div>
-                  <p className="text-xs font-sans font-semibold text-brand-text">100% Veganskt</p>
-                  <p className="text-xs font-sans text-brand-muted">Sojavax</p>
-                </div>
-              </div>
-
-              {/* Floating badge - bottom right */}
-              <div
-                className="absolute -bottom-4 -right-4 bg-brand-primary rounded-2xl shadow-lg px-4 py-3 text-white animate-bounce"
-                style={{ animationDuration: '4s', animationDelay: '1s' }}
-              >
-                <p className="text-xs font-sans font-semibold">Unikt mönster</p>
-                <p className="text-xs font-sans opacity-80">Varje ljus är unikt</p>
+            {/* Floating badge - top left */}
+            <div
+              className="absolute -top-4 -left-4 bg-white rounded-2xl shadow-lg px-4 py-3 flex items-center gap-2 animate-bounce"
+              style={{ animationDuration: '3s' }}
+            >
+              <span className="text-xl">🌱</span>
+              <div>
+                <p className="text-xs font-sans font-semibold text-brand-text">100% Veganskt</p>
+                <p className="text-xs font-sans text-brand-muted">Sojavax</p>
               </div>
             </div>
 
-            {/* Secondary smaller circles */}
+            {/* Floating badge - bottom right */}
             <div
-              className="absolute top-8 right-0 w-24 h-24 rounded-full opacity-60"
-              style={{
-                background: 'radial-gradient(circle at 40% 40%, #8FAE8E, #F0EAE3)',
-              }}
-            />
-            <div
-              className="absolute bottom-8 left-0 w-16 h-16 rounded-full opacity-50"
-              style={{
-                background: 'radial-gradient(circle at 60% 60%, #C8A99A, #FAF7F2)',
-              }}
-            />
+              className="absolute -bottom-4 -right-4 bg-brand-primary rounded-2xl shadow-lg px-4 py-3 text-white animate-bounce"
+              style={{ animationDuration: '4s', animationDelay: '1s' }}
+            >
+              <p className="text-xs font-sans font-semibold">Handgjort i Sverige</p>
+              <p className="text-xs font-sans opacity-80">Strömby, Småland</p>
+            </div>
           </div>
         </div>
       </div>

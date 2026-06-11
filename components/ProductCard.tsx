@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface Product {
   id: string
@@ -7,6 +8,7 @@ interface Product {
   originalPrice?: number
   description: string
   gradientClass: string
+  image?: string
   badge?: string
   href?: string
 }
@@ -32,17 +34,26 @@ export default function ProductCard({ product }: ProductCardProps) {
     <article className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
       {/* Image area */}
       <div className="relative aspect-square overflow-hidden">
-        {/* Gradient placeholder representing marble candle */}
-        <div
-          className="w-full h-full transition-transform duration-500 group-hover:scale-105"
-          style={{ background: gradientStyle }}
-          role="img"
-          aria-label={`${product.name} – dekorativ bild`}
-        />
+        {product.image ? (
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          />
+        ) : (
+          <div
+            className="w-full h-full transition-transform duration-500 group-hover:scale-105"
+            style={{ background: gradientStyle }}
+            role="img"
+            aria-label={`${product.name} – dekorativ bild`}
+          />
+        )}
 
         {/* Overlay swirl effect */}
         <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300"
+          className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
           style={{
             background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8) 0%, transparent 60%)',
           }}
