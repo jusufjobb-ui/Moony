@@ -2,142 +2,182 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Hero from '@/components/Hero'
-import TrustBadges from '@/components/TrustBadges'
+import Navigation from '@/components/Navigation'
 
-// ── Featured Products ─────────────────────────────────────────────────────────
+// ── Hero ──────────────────────────────────────────────────────────────────────
+
+function Hero() {
+  return (
+    <section className="relative bg-brand-bg overflow-hidden">
+      <div className="container-max grid grid-cols-1 lg:grid-cols-2 min-h-[90vh] items-center gap-0">
+
+        {/* Text */}
+        <div className="py-24 lg:py-0 pr-0 lg:pr-16 order-2 lg:order-1">
+          <p className="font-sans text-xs uppercase tracking-widest text-brand-muted mb-6">
+            Handgjort i Strömby, Småland
+          </p>
+          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl text-brand-text leading-[1.05] mb-7">
+            Ljus för stunder<br />
+            <em className="text-brand-primary not-italic">som räknas</em>
+          </h1>
+          <p className="font-sans text-lg text-brand-muted leading-relaxed mb-10 max-w-md">
+            Varje ljus är gjort för hand av mig, Katrin — i liten skala, med veganskt sojavax och dofter som ska få dig att stanna upp och andas.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link href="/kollektioner" className="btn-primary text-center">
+              Se alla ljus
+            </Link>
+            <Link href="/om-oss" className="btn-secondary text-center">
+              Min berättelse
+            </Link>
+          </div>
+        </div>
+
+        {/* Image */}
+        <div className="relative order-1 lg:order-2 h-[55vw] lg:h-screen max-h-[700px]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/aurora.jpeg"
+            alt="Aurora – handgjort doftljus av Moony Flames"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-bg via-transparent to-transparent lg:from-transparent" />
+          {/* Candle label overlay */}
+          <div className="absolute bottom-8 right-8 bg-white/90 backdrop-blur-sm rounded-2xl px-5 py-4 shadow-xl max-w-[200px]">
+            <p className="font-serif text-base italic text-brand-text leading-snug">
+              "For moments that matter."
+            </p>
+            <p className="font-sans text-xs text-brand-muted mt-1.5">— Aurora</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── Ingredient strip ──────────────────────────────────────────────────────────
+
+function Strip() {
+  return (
+    <div className="bg-brand-primary/10 border-y border-brand-primary/20 py-4 overflow-hidden">
+      <div className="flex items-center justify-center gap-10 flex-wrap px-6 text-center">
+        {['Veganskt sojavax', 'Ftalatfria dofter', 'Handgjort i Sverige', 'Inga två ljus är likadana'].map(item => (
+          <span key={item} className="font-sans text-xs uppercase tracking-widest text-brand-muted whitespace-nowrap">
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── Products ──────────────────────────────────────────────────────────────────
 
 const products = [
   {
-    id: 1,
-    name: 'Marmorerat Doftljus',
-    description: 'Unikt handformat ljus i veganskt sojavax med swirling marmorerat mönster.',
+    id: 'aurora',
+    name: 'Aurora',
+    tagline: 'For moments that matter.',
+    scents: 'Citrus · Gröna noter · Jasmin',
     price: 299,
-    originalPrice: null,
-    badge: 'Bästsäljare',
-    gradient: 'radial-gradient(circle at 30% 40%, #C8A99A 0%, #F0EAE3 40%, #8FAE8E 70%, #D4C4B8 100%)',
-    href: '/kollektioner#doftljus',
+    image: '/images/aurora.jpeg',
+    href: '/kollektioner',
   },
   {
-    id: 2,
-    name: 'Säg det med ett ljus',
-    description: 'Personaliserat doftljus – välj doft och låt oss skriva ditt meddelande.',
-    price: 349,
-    originalPrice: null,
-    badge: 'Personligt',
-    gradient: 'radial-gradient(ellipse at 60% 30%, #8FAE8E 0%, #F0EAE3 45%, #C8A99A 80%, #FAF7F2 100%)',
-    href: '/kollektioner#personliga',
+    id: 'orange-a-licious',
+    name: 'Orange-a-licious',
+    tagline: 'When life needs a burst of sunshine.',
+    scents: 'Apelsin · Kryddiga blommor · Vaniljmusk',
+    price: 299,
+    image: '/images/orange-a-licious.jpeg',
+    href: '/kollektioner',
   },
   {
-    id: 3,
-    name: 'Doftljuspaket 3-pack',
-    description: 'Tre unika marmorerade ljus i ett snyggt presentpaket.',
-    price: 749,
-    originalPrice: 897,
-    badge: 'Spara 148 kr',
-    gradient: 'conic-gradient(from 120deg at 50% 50%, #C8A99A, #FAF7F2, #8FAE8E, #F0EAE3, #C8A99A)',
-    href: '/kollektioner#paket',
-  },
-  {
-    id: 4,
-    name: 'Vaxsmältare',
-    description: 'Elegant keramisk vaxsmältare för dina vaxpraliner. Stilren design.',
-    price: 149,
-    originalPrice: null,
-    badge: null,
-    gradient: 'radial-gradient(circle at 70% 30%, #8FAE8E 0%, #F0EAE3 35%, #C8A99A 65%, #FAF7F2 100%)',
-    href: '/kollektioner#vaxsmaltare',
-  },
-  {
-    id: 5,
-    name: 'Vaxpraliner',
-    description: 'Doftande vaxpraliner i handsytt marmorerat mönster. Passar alla smältare.',
-    price: 129,
-    originalPrice: null,
-    badge: 'Nyhet',
-    gradient: 'radial-gradient(ellipse at 20% 70%, #C8A99A 0%, #e8d5ce 35%, #c2d4c1 65%, #F0EAE3 100%)',
-    href: '/kollektioner#vaxsmaltare',
-  },
-  {
-    id: 6,
-    name: 'Aromlampa',
-    description: 'Handgjord aromlampa i terrakotta för vaxpraliner och eteriska oljor.',
-    price: 199,
-    originalPrice: null,
-    badge: null,
-    gradient: 'radial-gradient(ellipse at 80% 20%, #d4bfb8 0%, #c2d4c1 40%, #e8ddd8 70%, #FAF7F2 100%)',
-    href: '/kollektioner#aromaterapy',
+    id: 'whiskey-fire',
+    name: 'Whiskey & Fire',
+    tagline: 'For moments that ask for more.',
+    scents: 'Mild whiskey · Mörkt trä · Mjuk vanilj',
+    price: 299,
+    image: '/images/whiskey-fire.jpeg',
+    href: '/kollektioner',
   },
 ]
 
-function FeaturedProducts() {
+function Products() {
   return (
-    <section className="py-20 bg-brand-bg" aria-labelledby="products-heading">
+    <section className="py-24 bg-brand-bg">
       <div className="container-max">
-        <div className="text-center mb-14">
-          <p className="font-sans text-xs uppercase tracking-widest text-brand-primary mb-3">
-            Våra produkter
-          </p>
-          <h2 id="products-heading" className="section-heading mb-4">
-            Populära kollektioner
+        <div className="mb-14">
+          <h2 className="font-serif text-4xl lg:text-5xl text-brand-text mb-3">
+            Välj din stund
           </h2>
-          <p className="section-subheading max-w-xl mx-auto">
-            Varje ljus är handgjort och unikt – inga två är exakt lika. Utforska våra dofter och hitta ditt favoritljus.
+          <p className="font-sans text-base text-brand-muted max-w-md">
+            Varje doft är skapad för ett humör, en kväll, ett ögonblick. Vilket är ditt?
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {products.map((p) => (
             <Link
-              key={product.id}
-              href={product.href}
-              className="group bg-brand-card rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-              aria-label={`${product.name} – ${product.price} kr`}
+              key={p.id}
+              href={p.href}
+              className="group block"
+              aria-label={p.name}
             >
-              {/* Image placeholder */}
-              <div className="relative overflow-hidden">
-                <div
-                  style={{ background: product.gradient }}
-                  className="w-full aspect-square"
+              <div className="relative overflow-hidden rounded-2xl aspect-[4/5] mb-5">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                {product.badge && (
-                  <span className="absolute top-4 left-4 bg-white text-brand-text text-xs font-sans font-medium px-3 py-1.5 rounded-full shadow-sm">
-                    {product.badge}
-                  </span>
-                )}
-              </div>
-
-              {/* Product info */}
-              <div className="p-5">
-                <h3 className="font-serif text-xl text-brand-text mb-1 group-hover:text-brand-primary transition-colors">
-                  {product.name}
-                </h3>
-                <p className="font-sans text-sm text-brand-muted mb-3 leading-relaxed">
-                  {product.description}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-sans font-semibold text-brand-text text-lg">
-                      {product.price} kr
-                    </span>
-                    {product.originalPrice && (
-                      <span className="font-sans text-sm text-brand-muted line-through">
-                        {product.originalPrice} kr
-                      </span>
-                    )}
-                  </div>
-                  <span className="font-sans text-xs text-brand-primary uppercase tracking-widest group-hover:underline">
-                    Välj →
-                  </span>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                <div className="absolute bottom-5 left-5 right-5">
+                  <p className="font-serif text-white text-sm italic leading-snug opacity-90">
+                    "{p.tagline}"
+                  </p>
                 </div>
+              </div>
+              <div>
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-serif text-2xl text-brand-text group-hover:text-brand-primary transition-colors">
+                    {p.name}
+                  </h3>
+                  <span className="font-sans text-sm text-brand-muted pt-1.5 whitespace-nowrap">{p.price} kr</span>
+                </div>
+                <p className="font-sans text-sm text-brand-muted mt-1">{p.scents}</p>
               </div>
             </Link>
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        {/* Package deal */}
+        <div className="mt-16 bg-brand-card rounded-3xl p-8 lg:p-12 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <div className="flex-1">
+            <p className="font-sans text-xs uppercase tracking-widest text-brand-primary mb-3">Bästa värdet</p>
+            <h3 className="font-serif text-3xl lg:text-4xl text-brand-text mb-4">
+              Välj tre. Spara 148 kr.
+            </h3>
+            <p className="font-sans text-base text-brand-muted leading-relaxed mb-6 max-w-md">
+              Kan du inte välja? Ta tre. Perfekt som present eller för att fylla hemmet med dofter som passar varje stämning.
+            </p>
+            <Link href="/kollektioner" className="btn-primary inline-block">
+              Köp 3-pack för 749 kr
+            </Link>
+          </div>
+          <div className="w-full lg:w-72 aspect-square rounded-2xl overflow-hidden flex-shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/flatlay.jpeg"
+              alt="Moony Flames doftljus med ingredienser"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+        <div className="text-center mt-10">
           <Link href="/kollektioner" className="btn-secondary">
-            Se alla produkter
+            Se hela sortimentet
           </Link>
         </div>
       </div>
@@ -145,59 +185,25 @@ function FeaturedProducts() {
   )
 }
 
-// ── Brand Story ───────────────────────────────────────────────────────────────
+// ── From Katrin ───────────────────────────────────────────────────────────────
 
-function BrandStory() {
+function FromKatrin() {
   return (
-    <section className="py-20 bg-brand-card" aria-labelledby="story-heading">
-      <div className="container-max">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-          {/* Visual */}
-          <div className="relative order-2 lg:order-1" aria-hidden="true">
-            <div
-              className="w-full aspect-square rounded-3xl overflow-hidden shadow-2xl"
-              style={{
-                background:
-                  'radial-gradient(ellipse at 30% 30%, #C8A99A 0%, #F0EAE3 40%, #8FAE8E 70%, #FAF7F2 100%)',
-              }}
-            />
-            {/* Floating accent */}
-            <div
-              className="absolute -bottom-6 -right-6 w-40 h-40 rounded-full opacity-70"
-              style={{
-                background:
-                  'radial-gradient(circle at 50% 50%, #8FAE8E 0%, #F0EAE3 60%, transparent 80%)',
-              }}
-            />
-            <div
-              className="absolute -top-6 -left-6 w-28 h-28 rounded-full opacity-60"
-              style={{
-                background:
-                  'radial-gradient(circle at 50% 50%, #C8A99A 0%, #F0EAE3 60%, transparent 80%)',
-              }}
-            />
+    <section className="py-24 bg-[#2C2420] text-white">
+      <div className="container-max max-w-3xl text-center">
+        <p className="font-sans text-xs uppercase tracking-widest text-brand-primary mb-8">
+          Från grundaren
+        </p>
+        <blockquote className="font-serif text-3xl lg:text-4xl leading-relaxed mb-10 text-white/90">
+          "Jag startade Moony Flames för att jag ville att varje ljus skulle kännas som något — inte bara dofta som något. Varje batch görs för hand, i liten skala, i min ateljé. Inget massproduceras. Aldrig."
+        </blockquote>
+        <div className="flex items-center justify-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-brand-primary/30 flex items-center justify-center">
+            <span className="font-serif text-lg text-brand-primary">K</span>
           </div>
-
-          {/* Text */}
-          <div className="order-1 lg:order-2 space-y-6">
-            <p className="font-sans text-xs uppercase tracking-widest text-brand-primary">
-              Vår berättelse
-            </p>
-            <h2 id="story-heading" className="section-heading">
-              Bakom varje ljus finns en berättelse
-            </h2>
-            <p className="font-sans text-base text-brand-muted leading-relaxed">
-              Mitt namn är Katrin och jag bor i lilla Strömby i hjärtat av Småland. Det hela började som ett experiment i mitt kök – en dröm om att skapa något vackert och meningsfullt med händerna.
-            </p>
-            <p className="font-sans text-base text-brand-muted leading-relaxed">
-              Varje Moony Flames-ljus är handgjort av mig, med veganskt sojavax och noggrant utvalda dofter som är fria från parabener och ftalater. Det marmorerade mönstret skapas för hand – ett konstverk som aldrig upprepas.
-            </p>
-            <p className="font-sans text-base text-brand-muted leading-relaxed">
-              Jag tror på att småskaligt hantverk kan göra en stor skillnad – för miljön, för hemmet, och för känslan av att ge eller ta emot något genuint unikt.
-            </p>
-            <Link href="/om-oss" className="btn-primary inline-block mt-2">
-              Läs mer om oss
-            </Link>
+          <div className="text-left">
+            <p className="font-sans text-sm font-medium text-white">Katrin</p>
+            <p className="font-sans text-xs text-white/50">Grundare, Moony Flames · Strömby, Småland</p>
           </div>
         </div>
       </div>
@@ -205,165 +211,108 @@ function BrandStory() {
   )
 }
 
-// ── Why Us ────────────────────────────────────────────────────────────────────
+// ── Personalized ──────────────────────────────────────────────────────────────
 
-const features = [
-  {
-    icon: '✨',
-    title: 'Aldrig samma två gånger',
-    description:
-      'Det marmorerade mönstret skapas för hand varje gång. Du köper ett original – garanterat.',
-  },
-  {
-    icon: '🌱',
-    title: 'Veganskt & hållbart',
-    description:
-      'Veganskt sojavax, ftalatfria dofter och återvinningsbart förpackningsmaterial. Bra för dig och planeten.',
-  },
-  {
-    icon: '🤲',
-    title: 'Handgjort med kärlek',
-    description:
-      'Varje ljus hälls, färgas och formas av Katrin i Småland. Inget massproducerat – aldrig.',
-  },
-  {
-    icon: '💌',
-    title: 'Personlig service',
-    description:
-      'Vill du ha ett personligt meddelande eller en specialbeställning? Kontakta oss – vi fixar det.',
-  },
-]
-
-function WhyUs() {
+function Personalized() {
   return (
-    <section className="py-20 bg-brand-bg" aria-labelledby="whyus-heading">
-      <div className="container-max">
-        <div className="text-center mb-14">
-          <p className="font-sans text-xs uppercase tracking-widest text-brand-primary mb-3">
-            Varför Moony Flames
+    <section className="py-24 bg-brand-bg">
+      <div className="container-max grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p className="font-sans text-xs uppercase tracking-widest text-brand-muted mb-4">
+            Personlig present
           </p>
-          <h2 id="whyus-heading" className="section-heading mb-4">
-            Mer än bara ett ljus
+          <h2 className="font-serif text-4xl lg:text-5xl text-brand-text mb-6">
+            Säg det med ett ljus
           </h2>
+          <p className="font-sans text-base text-brand-muted leading-relaxed mb-4">
+            Välj en doft. Skriv ditt meddelande. Jag skriver det på etiketten för hand. Klart.
+          </p>
+          <p className="font-sans text-base text-brand-muted leading-relaxed mb-8">
+            Perfekt till födelsedag, bröllop, eller bara för att säga att du tänker på någon.
+          </p>
+          <Link href="/kollektioner" className="btn-primary inline-block">
+            Beställ personligt ljus — 349 kr
+          </Link>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature) => (
-            <div
-              key={feature.title}
-              className="bg-brand-card rounded-2xl p-7 text-center hover:shadow-lg transition-shadow duration-300"
-            >
-              <span className="text-4xl block mb-4" aria-hidden="true">
-                {feature.icon}
-              </span>
-              <h3 className="font-serif text-xl text-brand-text mb-3">{feature.title}</h3>
-              <p className="font-sans text-sm text-brand-muted leading-relaxed">
-                {feature.description}
-              </p>
+        <div
+          className="aspect-square rounded-3xl overflow-hidden"
+          style={{
+            background: 'radial-gradient(ellipse at 30% 40%, #C8A99A 0%, #F0EAE3 50%, #8FAE8E 100%)',
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center p-12">
+            <div className="bg-white rounded-2xl p-8 shadow-xl text-center max-w-xs">
+              <div className="font-sans text-xs uppercase tracking-widest text-brand-muted mb-2">Moony Flames</div>
+              <div className="font-sans text-xs text-brand-muted mb-4">For moments that matter</div>
+              <div className="font-serif text-3xl italic text-brand-text mb-3">Tack för allt, Mamma</div>
+              <div className="w-8 h-px bg-brand-primary mx-auto mb-3" />
+              <div className="font-sans text-xs text-brand-muted">Vanilj · Sandelträ · Rosenträ</div>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
   )
 }
 
-// ── FAQ Accordion ─────────────────────────────────────────────────────────────
+// ── FAQ ───────────────────────────────────────────────────────────────────────
 
 const faqs = [
   {
-    question: 'Är ljusen verkligen veganska?',
-    answer:
-      'Ja! Vi använder 100% veganskt sojavax och dofter som är fria från animaliska ingredienser. Vi testar inte heller på djur. Certifierat veganskt.',
+    q: 'Är ljusen verkligen veganska?',
+    a: 'Ja. Sojavax, ftalatfria och parabenfriya dofter, inga animaliska ingredienser. Certifierat veganskt.',
   },
   {
-    question: 'Hur länge brinner ett Moony Flames-ljus?',
-    answer:
-      'Våra standardljus (200g) brinner i ca 40–50 timmar med rätt skötsel. Klipp veken till 5 mm innan varje tändning och låt ljuset brinna tills hela ytan smält vid första användningen.',
+    q: 'Hur länge brinner ett ljus?',
+    a: 'Ca 40–50 timmar för ett 200g-ljus. Klipp veken till 5 mm innan varje tändning för bäst resultat.',
   },
   {
-    question: 'Kan jag beställa ett personaliserat ljus?',
-    answer:
-      'Absolut! Vi erbjuder personaliserade ljus med valfritt meddelande, namn eller datum. Välj produkt "Säg det med ett ljus" i kollektionen eller kontakta oss direkt för specialbeställningar.',
+    q: 'Kan jag beställa med personligt meddelande?',
+    a: 'Absolut — välj "Säg det med ett ljus" och skriv in din text. Jag tar hand om resten.',
   },
   {
-    question: 'Hur lång är leveranstiden?',
-    answer:
-      'Standardleverans är 3–5 arbetsdagar inom Sverige. Eftersom varje ljus görs för hand kan det ta 1–2 extra dagar för personaliseringar. Vi skickar alltid spårningsnummer via e-post.',
+    q: 'Hur lång är leveranstiden?',
+    a: 'Vanligtvis 1–3 arbetsdagar. Personliga ljus tar 7–10 dagar.',
   },
   {
-    question: 'Är frakten fri?',
-    answer:
-      'Ja! Fri frakt på alla beställningar över 500 kr inom Sverige. För order under 500 kr tillkommer en fraktavgift på 49 kr.',
-  },
-  {
-    question: 'Vilka dofter finns det?',
-    answer:
-      'Vi erbjuder ett roterande sortiment av dofter inspirerade av natur och årstider – t.ex. Vinterskog, Regnig dag, Vildblommor, Salthavet och Vanilj & Sandelträ. Se alltid aktuellt sortiment i kollektionen.',
+    q: 'Kostar frakten?',
+    a: '69 kr under 500 kr. Fri frakt på allt över 500 kr.',
   },
 ]
 
-function FAQAccordion() {
+function FAQ() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section className="py-20 bg-brand-card" aria-labelledby="faq-heading">
-      <div className="container-max max-w-3xl">
-        <div className="text-center mb-14">
-          <p className="font-sans text-xs uppercase tracking-widest text-brand-primary mb-3">
-            Vanliga frågor
-          </p>
-          <h2 id="faq-heading" className="section-heading mb-4">
-            Har du frågor?
-          </h2>
-          <p className="section-subheading">
-            Här hittar du svar på de vanligaste frågorna. Hittar du inte svaret?{' '}
-            <Link href="/kontakt" className="text-brand-primary hover:underline">
-              Kontakta oss
-            </Link>
-            .
-          </p>
-        </div>
-
-        <div className="space-y-3">
+    <section className="py-24 bg-brand-card">
+      <div className="container-max max-w-2xl">
+        <h2 className="font-serif text-4xl text-brand-text mb-12">
+          Vanliga frågor
+        </h2>
+        <div className="space-y-2">
           {faqs.map((faq, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm"
-            >
+            <div key={i} className="border-b border-brand-primary/15 last:border-0">
               <button
-                className="w-full flex items-center justify-between px-7 py-5 text-left font-serif text-lg text-brand-text hover:text-brand-primary transition-colors"
+                className="w-full flex items-center justify-between py-5 text-left"
                 onClick={() => setOpen(open === i ? null : i)}
                 aria-expanded={open === i}
-                aria-controls={`faq-answer-${i}`}
               >
-                <span>{faq.question}</span>
-                <svg
-                  className={`w-5 h-5 flex-shrink-0 ml-4 transition-transform duration-300 ${open === i ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                <span className="font-serif text-xl text-brand-text">{faq.q}</span>
+                <span className={`text-brand-primary transition-transform duration-300 ml-4 flex-shrink-0 text-xl ${open === i ? 'rotate-45' : ''}`}>
+                  +
+                </span>
               </button>
-              <div
-                id={`faq-answer-${i}`}
-                className={`overflow-hidden transition-all duration-300 ${open === i ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`}
-                role="region"
-              >
-                <p className="font-sans text-base text-brand-muted leading-relaxed px-7 pb-5">
-                  {faq.answer}
+              {open === i && (
+                <p className="font-sans text-base text-brand-muted pb-5 leading-relaxed">
+                  {faq.a}
                 </p>
-              </div>
+              )}
             </div>
           ))}
         </div>
-
-        <div className="text-center mt-10">
-          <Link href="/fragor" className="btn-secondary">
-            Se alla frågor & svar
+        <div className="mt-10">
+          <Link href="/fragor" className="font-sans text-sm text-brand-primary hover:underline">
+            Se alla frågor och svar →
           </Link>
         </div>
       </div>
@@ -375,60 +324,37 @@ function FAQAccordion() {
 
 function Newsletter() {
   const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (email) {
-      setSubmitted(true)
-    }
-  }
+  const [done, setDone] = useState(false)
 
   return (
-    <section className="py-20 bg-brand-bg" aria-labelledby="newsletter-heading">
-      <div className="container-max max-w-2xl text-center">
-        <span className="text-4xl block mb-4" aria-hidden="true">🕯️</span>
-        <h2 id="newsletter-heading" className="section-heading mb-4">
-          Bli en del av Moony-familjen
+    <section className="py-24 bg-brand-bg">
+      <div className="container-max max-w-xl text-center">
+        <h2 className="font-serif text-4xl text-brand-text mb-4">
+          Nya dofter. Först till dig.
         </h2>
-        <p className="section-subheading mb-8">
-          Prenumerera på vårt nyhetsbrev och få 10% rabatt på din första beställning. Plus tips om ljusvård, nyheter och exklusiva erbjudanden.
+        <p className="font-sans text-base text-brand-muted mb-8">
+          Få 10% på din första beställning och bli den första att höra om nya ljus.
         </p>
-
-        {submitted ? (
-          <div className="bg-brand-card rounded-2xl px-8 py-6 text-center animate-fade-in">
-            <p className="font-serif text-2xl text-brand-text mb-1">Tack!</p>
-            <p className="font-sans text-brand-muted">
-              Du är nu anmäld. Kolla din inkorg för din rabattkod!
-            </p>
-          </div>
+        {done ? (
+          <p className="font-serif text-2xl text-brand-primary italic">Tack! Kolla din inkorg.</p>
         ) : (
           <form
-            onSubmit={handleSubmit}
-            className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
-            aria-label="Prenumerera på nyhetsbrevet"
+            onSubmit={(e) => { e.preventDefault(); if (email) setDone(true) }}
+            className="flex flex-col sm:flex-row gap-3"
           >
-            <label htmlFor="newsletter-email" className="sr-only">
-              E-postadress
-            </label>
             <input
-              id="newsletter-email"
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="din@email.se"
-              className="flex-1 bg-brand-card border border-brand-primary/30 rounded-full px-6 py-3 font-sans text-sm text-brand-text placeholder-brand-muted focus:outline-none focus:border-brand-primary transition-colors"
+              className="flex-1 bg-brand-card border border-brand-primary/30 rounded-full px-6 py-3 font-sans text-sm text-brand-text placeholder-brand-muted focus:outline-none focus:border-brand-primary"
             />
             <button type="submit" className="btn-primary whitespace-nowrap">
-              Prenumerera
+              Ja tack
             </button>
           </form>
         )}
-
-        <p className="font-sans text-xs text-brand-muted mt-4">
-          Inga spam. Avregistrera när som helst. Vi delar aldrig din data.
-        </p>
       </div>
     </section>
   )
@@ -440,11 +366,11 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <TrustBadges />
-      <FeaturedProducts />
-      <BrandStory />
-      <WhyUs />
-      <FAQAccordion />
+      <Strip />
+      <Products />
+      <FromKatrin />
+      <Personalized />
+      <FAQ />
       <Newsletter />
     </>
   )
