@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
   images: {
-    domains: [],
+    unoptimized: true,
   },
-  // Disable static export of pages/ directory error pages (not used with App Router)
-  experimental: {},
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
 }
 
 module.exports = nextConfig
