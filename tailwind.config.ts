@@ -17,6 +17,8 @@ const config: Config = {
           card: '#F0EAE3',
           muted: '#A09080',
           dark: '#2C2420',
+          ink: '#14100E',
+          amber: '#C4813A',
         },
       },
       fontFamily: {

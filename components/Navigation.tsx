@@ -35,15 +35,15 @@ export default function Navigation() {
   return (
     <>
       {/* Announcement Bar */}
-      <div className="bg-brand-primary text-white text-center py-2.5 px-4 text-sm font-sans tracking-wide">
-        Fri frakt på beställningar över 500 kr 🕯️ Handgjort i Sverige
+      <div className="bg-brand-ink text-white/60 text-center py-2.5 px-4 text-xs font-sans tracking-[0.15em] uppercase">
+        Fri frakt på beställningar över 500 kr &nbsp;·&nbsp; Handgjort i Sverige
       </div>
 
       {/* Main Navigation */}
       <header
         className={`sticky top-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-white shadow-sm border-b border-brand-card'
+            ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-brand-card'
             : 'bg-brand-bg/95 backdrop-blur-sm'
         }`}
       >
