@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 export default function Hero() {
@@ -101,16 +100,13 @@ export default function Hero() {
           <div
             className={`relative flex items-center justify-center transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
           >
-            <div className="relative w-full max-w-md lg:max-w-lg aspect-square rounded-3xl overflow-hidden shadow-2xl">
-              <Image
+            <div className="relative w-full max-w-md lg:max-w-lg rounded-3xl overflow-hidden shadow-2xl">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src="/images/flatlay.jpeg"
                 alt="Moony Flames doftljus med citrus, blommor och kvistar"
-                fill
-                className="object-cover"
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="w-full h-auto block"
               />
-              {/* Subtle overlay for blending */}
               <div className="absolute inset-0 rounded-3xl ring-1 ring-black/5" />
             </div>
 
